@@ -7,8 +7,6 @@
 import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdStats;
 
-import java.math.BigDecimal;
-
 public class PercolationStats {
 
     private double[] thresholdArray;
@@ -32,9 +30,8 @@ public class PercolationStats {
                 percolate.open(row, col);
                 // count += 1;
             }
-            BigDecimal num = new BigDecimal(percolate.numberOfOpenSites());
-            BigDecimal denom = new BigDecimal(n * n);
-            double rate = num.divide(denom).doubleValue();
+
+            double rate = (double) (percolate.numberOfOpenSites()) / (n * n);
             thresholdArray[i] = rate;
         }
         // StdRandom
