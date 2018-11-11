@@ -7,11 +7,11 @@
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation {
-    private int size;
-    private WeightedQuickUnionUF wquf;
-    private int[] openFlag;
-    // private int openNumber = 0;
-    private int[] firstRowOpen;
+    private final int size;
+    private final WeightedQuickUnionUF wquf;
+    private boolean[] openFlag;
+    private int openNumber = 0;
+    // private int[] firstRowOpen;
 
     // create n-by-n grid, with all sites blocked
     public Percolation(int n) {
@@ -21,12 +21,12 @@ public class Percolation {
         size = n;
         int Size = n * n;
         wquf = new WeightedQuickUnionUF(Size);
-        openFlag = new int[Size];
-        firstRowOpen = new int[size];
+        openFlag = new boolean[Size];
+        // firstRowOpen = new int[size];
         for (int i = 0; i < size; i++) {
-            firstRowOpen[i] = 0;
+            // firstRowOpen[i] = 0;
             for (int j = 0; j < size; j++) {
-                openFlag[i * size + j] = 0;
+                openFlag[i * size + j] = false;
             }
         }
     }
@@ -39,8 +39,8 @@ public class Percolation {
         }
         // open it
         int pos = (row - 1) * size + (col - 1);
-        openFlag[pos] = 1;
-        // openNumber += 1;
+        openFlag[pos] = true;
+        openNumber += 1;
         // check the four site, and connect it
         // 1. top
         int top_row = row - 1;
@@ -92,7 +92,7 @@ public class Percolation {
     public boolean isOpen(int row, int col) {
         validate(row, col);
         int pos = (row - 1) * size + (col - 1);
-        return openFlag[pos] == 1;
+        return openFlag[pos];
     }
 
     // is site (row, col) full?
@@ -113,7 +113,7 @@ public class Percolation {
 
     // number of open sites
     public int numberOfOpenSites() {
-        return wquf.count();
+        return openNumber;
     }
 
     // does the system percolate?
@@ -141,7 +141,7 @@ public class Percolation {
     private void validate(int row, int col) {
         // 1-start up index
         if ((row <= 0 || row > size) || (col <= 0 || col > size)) {
-            throw new IllegalArgumentException("越界!");
+            throw new IllegalArgumentException("corrupt");
         }
     }
 
