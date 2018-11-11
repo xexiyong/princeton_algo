@@ -19,8 +19,6 @@
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.StdDraw;
 
-import java.awt.Font;
-
 public class PercolationVisualizer {
 
     // delay in miliseconds (controls animation speed)
@@ -39,15 +37,13 @@ public class PercolationVisualizer {
         for (int row = 1; row <= n; row++) {
             for (int col = 1; col <= n; col++) {
                 if (perc.isFull(row, col)) {
-                    StdDraw.setPenColor(StdDraw.BOOK_LIGHT_BLUE); //浅蓝色，打开已通
+                    StdDraw.setPenColor(StdDraw.BOOK_LIGHT_BLUE); //light blue
                     opened++;
-                }
-                else if (perc.isOpen(row, col)) {
-                    StdDraw.setPenColor(StdDraw.WHITE);  //白色 打开未通
+                } else if (perc.isOpen(row, col)) {
+                    StdDraw.setPenColor(StdDraw.WHITE);  //white
                     opened++;
-                }
-                else
-                    StdDraw.setPenColor(StdDraw.BLACK);  //黑色，阻塞
+                } else
+                    StdDraw.setPenColor(StdDraw.BLACK);  //black
                 StdDraw.filledSquare(col - 0.5, n - row + 0.5, 0.45);
             }
         }
