@@ -35,6 +35,7 @@ public class Percolation {
     public void open(int row, int col) {
         validate(row, col);
         if (isOpen(row, col)) {
+            System.out.println("already open");
             return;
         }
         // open it
@@ -77,11 +78,20 @@ public class Percolation {
         // 5. the first row connect to others same row, they all connect the last - 1 site
         if (row == 1) {
             // iterate first row
-            wquf.union(pos, size * size);
+//            System.out.println("first row open");
+            wquf.union(size * size, pos);
         }
         // 6. the last row could be connect to bottom site if this site connect to top site
-        if (row == size && wquf.connected(pos, size * size)) {
-            wquf.union(pos, size * size + 1);
+        if (row == size) {
+            wquf.union(size * size + 1, pos);
+//            System.out.println("last row open");
+//            if (wquf.connected(size * size, pos)) {
+//                System.out.println("found percolate");
+//                wquf.union(size * size + 1, pos);
+//            }
+//            if (isFull(row, col)) {
+//                System.out.println("last row is full");
+//            }
         }
     }
 
@@ -110,6 +120,13 @@ public class Percolation {
     public boolean percolates() {
         // iterate all site connect to first row, if so, full;
         return wquf.connected(size * size + 1, size * size);
+//        for (int i = 0; i < size; i++) {
+//            int pos = (size - 1) * size + i;
+//            if (wquf.connected(pos, size * size)) {
+//                return true;
+//            }
+//        }
+//        return false;
     }
 
     // invalidate
