@@ -10,8 +10,8 @@ import edu.princeton.cs.algs4.StdStats;
 public class PercolationStats {
 
     private final double[] thresholdArray;
-    // private double mean;
-    // private double stddev;
+    private double mean = 0;
+    private double stddev = 0;
     private final int Trails;
     // private final double CONFIDENCE_95 = 1.96d;
 
@@ -41,12 +41,18 @@ public class PercolationStats {
 
     // sample mean of percolation threshold
     public double mean() {
-        return StdStats.mean(thresholdArray);
+        if (mean == 0) {
+            mean = StdStats.mean(thresholdArray);
+        }
+        return mean;
     }
 
     // sample standard deviation of percolation threshold
     public double stddev() {
-        return StdStats.stddev(thresholdArray);
+        if (stddev == 0) {
+            stddev = StdStats.stddev(thresholdArray);
+        }
+        return stddev;
     }
 
     // low  endpoint of 95% confidence interval

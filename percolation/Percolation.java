@@ -20,7 +20,7 @@ public class Percolation {
         }
         size = n;
         int Size = n * n;
-        wquf = new WeightedQuickUnionUF(Size);
+        wquf = new WeightedQuickUnionUF(Size + 2);   // add the top site and bottom site
         openFlag = new boolean[Size];
         // firstRowOpen = new int[size];
         for (int i = 0; i < size; i++) {
@@ -74,17 +74,14 @@ public class Percolation {
                 wquf.union(right_pos, pos);
             }
         }
-        // 5. the first row connect to others same row
+        // 5. the first row connect to others same row, they all connect the last - 1 site
         if (row == 1) {
             // iterate first row
-            for (int j = 1; j <= size; j++) {
-                // if open and not the current site
-                if (j != col && isOpen(row, j)) {
-                    // connect it
-                    int first_row_pos = (row - 1) * size + (j - 1);
-                    wquf.union(first_row_pos, pos);
-                }
-            }
+            wquf.union(pos, size * size);
+        }
+        // 6. the last row could be connect to bottom site if this site connect to top site
+        if (row == size && wquf.connected(pos, size * size)) {
+            wquf.union(pos, size * size + 1);
         }
     }
 
@@ -101,14 +98,7 @@ public class Percolation {
         // check current site connect to first row
         // iterate first row
         int pos = (row - 1) * size + (col - 1);
-        for (int j = 1; j <= size; j++) {
-            if (isOpen(1, j)) {
-                int first_row_pos = j - 1;
-                if (wquf.connected(pos, first_row_pos))
-                    return true;
-            }
-        }
-        return false;
+        return wquf.connected(pos, size * size);
     }
 
     // number of open sites
@@ -119,22 +109,7 @@ public class Percolation {
     // does the system percolate?
     public boolean percolates() {
         // iterate all site connect to first row, if so, full;
-        for (int col = 1; col <= size; col++) {
-            if (isOpen(size, col)) {
-                // find some opened site
-                int last_row_pos = (size - 1) * size + col - 1;
-                for (int fcol = 1; fcol <= size; fcol++) {
-                    if (isOpen(1, fcol)) {
-                        // find some site in the first row
-                        int first_row_pos = fcol - 1;
-                        if (wquf.connected(first_row_pos, last_row_pos)) {
-                            return true;
-                        }
-                    }
-                }
-            }
-        }
-        return false;
+        return wquf.connected(size * size + 1, size * size);
     }
 
     // invalidate
