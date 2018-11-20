@@ -42,15 +42,19 @@ public class Deque<Item> implements Iterable<Item> {
         if (item == null) {
             throw new IllegalArgumentException("null parameter");
         }
-        Node t = first;
-        first = new Node();
-        first.item = item;
-        first.next = t;
-        first.prev = null;
         if (isEmpty()) {
-            last = t;
+            first = new Node();
+            first.item = item;
+            first.next = null;
+            first.prev = null;
+            last = first;
         }
         else {
+            Node t = first;
+            first = new Node();
+            first.item = item;
+            first.next = t;
+            first.prev = null;
             t.prev = first;
         }
         n++;
@@ -61,14 +65,20 @@ public class Deque<Item> implements Iterable<Item> {
         if (item == null) {
             throw new IllegalArgumentException("null parameter");
         }
-        Node t = last;
-        last = new Node();
-        last.item = item;
-        last.next = null;
-        last.prev = t;
-        t.next = last;
-        if (n == 0) {
-            first = t;
+        if (isEmpty()) {
+            first = new Node();
+            first.item = item;
+            first.next = null;
+            first.prev = null;
+            last = first;
+        }
+        else {
+            Node t = last;
+            last = new Node();
+            last.item = item;
+            last.next = null;
+            last.prev = t;
+            t.next = last;
         }
         n++;
     }
