@@ -39,25 +39,53 @@ public class FastCollinearPoints {
                 t[j] = pointArray[j];
             }
             Arrays.sort(t, t[i].slopeOrder());
-            // find slope==0
+
+            // find similar slope side by side
             Point[] a = new Point[4];
-            int cnt = 0;
+            a[0] = pointArray[i];
+            int cnt = 1;
             for (int j = 0; j < size; j++) {
-                if (pointArray[i].slopeTo(t[j]) == +0.0) {
-                    if (cnt >= a.length) {
-                        a = Arrays.copyOf(a, a.length + 1);
-                    }
+                if (cnt == 1) {
                     a[cnt++] = t[j];
+                } else {
+                    if (pointArray[i].slopeTo(a[cnt - 1]) == pointArray[i].slopeTo(t[j])) {
+//                        System.out.println("<<<<<<");
+//                        System.out.println(pointArray[i]);
+//                        System.out.println(t[j]);
+//                        System.out.println(a[cnt - 1]);
+//                        System.out.println(">>>>>>");
+                        a[cnt++] = t[j];
+                    } else {
+                        if (cnt >= 3) {
+                            // if similar stored exceed 3 or more(except itself), take it to lineSegment; reset the cnt flag;
+                            System.out.println("find 4 or more similar");
+                            Arrays.sort(a, Point.valueOrder());
+                            lineSegments.add(new LineSegment(a[0], a[cnt - 1]));
+                            cnt = 1;
+                            clear(a);
+                        } else {
+                            // if not reach 3 or more, reset this array;
+                            cnt = 1;
+                            clear(a);
+                            a[cnt++] = t[j];
+                        }
+                    }
                 }
             }
-            System.out.println(cnt);
-            if (cnt >= 3) {
-                Arrays.sort(a, Point.valueOrder());
-                lineSegments.add(new LineSegment(a[0], a[a.length - 1]));
-                // System.out.println(a[0]);
-            }
+//            System.out.println(cnt);
+//            if (cnt >= 3) {
+//                Arrays.sort(a, Point.valueOrder());
+//                lineSegments.add(new LineSegment(a[0], a[a.length - 1]));
+//                // System.out.println(a[0]);
+//            }
         }
 
+    }
+
+    private void clear(Point[] a) {
+        for (int i = 1; i < a.length; i++) {
+            a[i] = null;
+        }
     }
 
     public int numberOfSegments() {
