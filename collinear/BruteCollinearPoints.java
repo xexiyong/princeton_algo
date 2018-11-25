@@ -39,10 +39,6 @@ public class BruteCollinearPoints {
             for (int j = i + 1; j < size; j++)
                 for (int k = j + 1; k < size; k++)
                     for (int m = k + 1; m < size; m++) {
-                        // Arrays.sort(a, a[0].slopeOrder());
-                        // double slope1 = a[0].slopeTo(a[1]);
-                        // double slope2 = a[1].slopeTo(a[2]);
-                        // double slope3 = a[2].slopeTo(a[3]);
                         double slope1 = pointArray[i].slopeTo(pointArray[j]);
                         double slope2 = pointArray[j].slopeTo(pointArray[k]);
                         double slope3 = pointArray[k].slopeTo(pointArray[m]);
