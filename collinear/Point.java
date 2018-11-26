@@ -117,11 +117,6 @@ public class Point implements Comparable<Point> {
             if (p1 == null && p2 == null) return 0;
             if (p1 == null) return 1;
             if (p2 == null) return -1;
-            // if (p1.x < p2.x) return -1;
-            // else if (p1.x > p2.x) return 1;
-            // if (p1.y < p2.y) return -1;
-            // else if (p1.y > p2.y) return 1;
-            // return 0;
             return p1.compareTo(p2);
         }
     }
