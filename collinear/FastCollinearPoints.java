@@ -42,7 +42,7 @@ public class FastCollinearPoints {
 
             // find similar slope side by side
             Point[] a = new Point[4];
-            a[0] = pointArray[i];
+            a[0] = t[0];
             int cnt = 1;
             for (int j = 0; j < size; j++) {
                 if (cnt == 1) {
@@ -51,14 +51,17 @@ public class FastCollinearPoints {
                 else {
                     if (pointArray[i].slopeTo(a[cnt - 1]) == pointArray[i].slopeTo(t[j])) {
                         if (cnt >= a.length) {
+                            System.out.println("before resize length" + a.length + " cnt=" + cnt);
                             a = Arrays.copyOf(a, a.length + 1);
+                            System.out.println("resize a " + a.length);
                         }
                         a[cnt++] = t[j];
                     }
                     else {
                         if (cnt >= 4) {
                             // if similar stored exceed 3 or more(except itself), take it to lineSegment; reset the cnt flag;
-                            System.out.println("find 4 or more similar");
+                            // System.out.println("a length " + a.length);
+                            // System.out.println("find 4 or more similar");
                             Arrays.sort(a, Point.valueOrder());
                             LineSegment ls = new LineSegment(a[0], a[cnt - 1]);
                             if (!isAlready(ls)) {
@@ -77,15 +80,16 @@ public class FastCollinearPoints {
                 }
             }
             // in case the last 3 point in one segment
-            if (cnt >= 4) {
-                // if similar stored exceed 3 or more(except itself), take it to lineSegment; reset the cnt flag;
-                System.out.println("find 4 or more similar at last");
-                Arrays.sort(a, Point.valueOrder());
-                LineSegment ls = new LineSegment(a[0], a[cnt - 1]);
-                if (!isAlready(ls)) {
-                    lineSegments.add(ls);
-                }
-            }
+            // if (cnt >= 4) {
+            //     // if similar stored exceed 3 or more(except itself), take it to lineSegment; reset the cnt flag;
+            //     System.out.println("a length at last" + a.length + " cnt =" + cnt);
+            //     System.out.println("find 4 or more similar at last");
+            //     Arrays.sort(a, Point.valueOrder());
+            //     LineSegment ls = new LineSegment(a[0], a[cnt - 1]);
+            //     if (!isAlready(ls)) {
+            //         lineSegments.add(ls);
+            //     }
+            // }
         }
 
     }

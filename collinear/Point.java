@@ -98,8 +98,10 @@ public class Point implements Comparable<Point> {
     private class CustomOrder implements Comparator<Point> {
         @Override
         public int compare(Point p1, Point p2) {
-            if (Point.this.slopeTo(p1) < Point.this.slopeTo(p2)) return -1;
-            else if (Point.this.slopeTo(p1) > Point.this.slopeTo(p2)) return 1;
+            double slope1 = Point.this.slopeTo(p1);
+            double slope2 = Point.this.slopeTo(p2);
+            if (slope1 < slope2) return -1;
+            else if (slope1 > slope2) return 1;
             return 0;
         }
     }
@@ -115,11 +117,12 @@ public class Point implements Comparable<Point> {
             if (p1 == null && p2 == null) return 0;
             if (p1 == null) return 1;
             if (p2 == null) return -1;
-            if (p1.x < p2.x) return -1;
-            else if (p1.x > p2.x) return 1;
-            if (p1.y < p2.y) return -1;
-            else if (p1.y > p2.y) return 1;
-            return 0;
+            // if (p1.x < p2.x) return -1;
+            // else if (p1.x > p2.x) return 1;
+            // if (p1.y < p2.y) return -1;
+            // else if (p1.y > p2.y) return 1;
+            // return 0;
+            return p1.compareTo(p2);
         }
     }
 

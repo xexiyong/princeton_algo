@@ -48,13 +48,25 @@ public class BruteCollinearPoints {
                             a[1] = pointArray[j];
                             a[2] = pointArray[k];
                             a[3] = pointArray[m];
+                            System.out.println(a[0] + "," + a[1] + "," + a[2] + "," + a[3]);
                             Arrays.sort(a, Point.valueOrder());
-                            lineSegments.add(new LineSegment(a[0], a[3]));
-                            // lineSegments.add(new LineSegment(pointArray[i], pointArray[m]));
+                            System.out.println(a[0] + "," + a[1] + "," + a[2] + "," + a[3]);
+                            LineSegment ls = new LineSegment(a[0], a[3]);
+                            if (!isAlready(ls)) {
+                                lineSegments.add(ls);
+                            }
                         }
                     }
     }
 
+
+    private boolean isAlready(LineSegment ls) {
+        for (LineSegment segment : lineSegments) {
+            if (segment.toString().equals(ls.toString()))
+                return true;
+        }
+        return false;
+    }
 
     public int numberOfSegments() {
         // the number of line segments
