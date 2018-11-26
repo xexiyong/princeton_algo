@@ -47,23 +47,27 @@ public class FastCollinearPoints {
             for (int j = 0; j < size; j++) {
                 if (cnt == 1) {
                     a[cnt++] = t[j];
-                } else {
+                }
+                else {
                     if (pointArray[i].slopeTo(a[cnt - 1]) == pointArray[i].slopeTo(t[j])) {
-//                        System.out.println("<<<<<<");
-//                        System.out.println(pointArray[i]);
-//                        System.out.println(t[j]);
-//                        System.out.println(a[cnt - 1]);
-//                        System.out.println(">>>>>>");
+                        if (cnt >= a.length) {
+                            a = Arrays.copyOf(a, a.length + 1);
+                        }
                         a[cnt++] = t[j];
-                    } else {
-                        if (cnt >= 3) {
+                    }
+                    else {
+                        if (cnt >= 4) {
                             // if similar stored exceed 3 or more(except itself), take it to lineSegment; reset the cnt flag;
                             System.out.println("find 4 or more similar");
                             Arrays.sort(a, Point.valueOrder());
-                            lineSegments.add(new LineSegment(a[0], a[cnt - 1]));
+                            LineSegment ls = new LineSegment(a[0], a[cnt - 1]);
+                            if (!isAlready(ls)) {
+                                lineSegments.add(ls);
+                            }
                             cnt = 1;
                             clear(a);
-                        } else {
+                        }
+                        else {
                             // if not reach 3 or more, reset this array;
                             cnt = 1;
                             clear(a);
@@ -72,12 +76,16 @@ public class FastCollinearPoints {
                     }
                 }
             }
-//            System.out.println(cnt);
-//            if (cnt >= 3) {
-//                Arrays.sort(a, Point.valueOrder());
-//                lineSegments.add(new LineSegment(a[0], a[a.length - 1]));
-//                // System.out.println(a[0]);
-//            }
+            // in case the last 3 point in one segment
+            if (cnt >= 4) {
+                // if similar stored exceed 3 or more(except itself), take it to lineSegment; reset the cnt flag;
+                System.out.println("find 4 or more similar at last");
+                Arrays.sort(a, Point.valueOrder());
+                LineSegment ls = new LineSegment(a[0], a[cnt - 1]);
+                if (!isAlready(ls)) {
+                    lineSegments.add(ls);
+                }
+            }
         }
 
     }
@@ -86,6 +94,14 @@ public class FastCollinearPoints {
         for (int i = 1; i < a.length; i++) {
             a[i] = null;
         }
+    }
+
+    private boolean isAlready(LineSegment ls) {
+        for (LineSegment segment : lineSegments) {
+            if (segment.toString().equals(ls.toString()))
+                return true;
+        }
+        return false;
     }
 
     public int numberOfSegments() {
