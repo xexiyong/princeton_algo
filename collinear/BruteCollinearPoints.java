@@ -10,6 +10,7 @@ import edu.princeton.cs.algs4.StdOut;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 
 public class BruteCollinearPoints {
 
@@ -49,7 +50,7 @@ public class BruteCollinearPoints {
                             a[2] = pointArray[k];
                             a[3] = pointArray[m];
                             // System.out.println(a[0] + "," + a[1] + "," + a[2] + "," + a[3]);
-                            Arrays.sort(a, Point.valueOrder());
+                            Arrays.sort(a, BruteCollinearPoints.valueOrder());
                             // System.out.println(a[0] + "," + a[1] + "," + a[2] + "," + a[3]);
                             LineSegment ls = new LineSegment(a[0], a[3]);
                             if (!isAlready(ls)) {
@@ -59,6 +60,21 @@ public class BruteCollinearPoints {
                     }
     }
 
+
+    private static Comparator<Point> valueOrder() {
+        Comparator<Point> c = new CustomOrder2();
+        return c;
+    }
+
+    private static class CustomOrder2 implements Comparator<Point> {
+        @Override
+        public int compare(Point p1, Point p2) {
+            if (p1 == null && p2 == null) return 0;
+            if (p1 == null) return 1;
+            if (p2 == null) return -1;
+            return p1.compareTo(p2);
+        }
+    }
 
     private boolean isAlready(LineSegment ls) {
         for (LineSegment segment : lineSegments) {

@@ -106,21 +106,6 @@ public class Point implements Comparable<Point> {
         }
     }
 
-    public static Comparator<Point> valueOrder() {
-        Comparator<Point> c = new CustomOrder2();
-        return c;
-    }
-
-    private static class CustomOrder2 implements Comparator<Point> {
-        @Override
-        public int compare(Point p1, Point p2) {
-            if (p1 == null && p2 == null) return 0;
-            if (p1 == null) return 1;
-            if (p2 == null) return -1;
-            return p1.compareTo(p2);
-        }
-    }
-
     /**
      * Returns a string representation of this point. This method is provide for debugging; your
      * program should not rely on the format of the string representation.

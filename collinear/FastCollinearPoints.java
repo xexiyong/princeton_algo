@@ -10,6 +10,7 @@ import edu.princeton.cs.algs4.StdOut;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 
 public class FastCollinearPoints {
     private Point[] pointArray;
@@ -62,7 +63,7 @@ public class FastCollinearPoints {
                             // if similar stored exceed 3 or more(except itself), take it to lineSegment; reset the cnt flag;
                             // System.out.println("a length " + a.length);
                             // System.out.println("find 4 or more similar");
-                            Arrays.sort(a, Point.valueOrder());
+                            Arrays.sort(a, FastCollinearPoints.valueOrder());
                             LineSegment ls = new LineSegment(a[0], a[cnt - 1]);
                             if (!isAlready(ls)) {
                                 lineSegments.add(ls);
@@ -84,7 +85,7 @@ public class FastCollinearPoints {
                 // if similar stored exceed 3 or more(except itself), take it to lineSegment; reset the cnt flag;
                 // System.out.println("a length at last" + a.length + " cnt =" + cnt);
                 // System.out.println("find 4 or more similar at last");
-                Arrays.sort(a, Point.valueOrder());
+                Arrays.sort(a, FastCollinearPoints.valueOrder());
                 LineSegment ls = new LineSegment(a[0], a[cnt - 1]);
                 if (!isAlready(ls)) {
                     lineSegments.add(ls);
@@ -92,6 +93,21 @@ public class FastCollinearPoints {
             }
         }
 
+    }
+
+    private static Comparator<Point> valueOrder() {
+        Comparator<Point> c = new CustomOrder2();
+        return c;
+    }
+
+    private static class CustomOrder2 implements Comparator<Point> {
+        @Override
+        public int compare(Point p1, Point p2) {
+            if (p1 == null && p2 == null) return 0;
+            if (p1 == null) return 1;
+            if (p2 == null) return -1;
+            return p1.compareTo(p2);
+        }
     }
 
     private void clear(Point[] a) {
