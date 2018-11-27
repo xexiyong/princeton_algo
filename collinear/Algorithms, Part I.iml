@@ -3,6 +3,7 @@
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/.lift" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.idea" />
       <excludePattern pattern="*.iml" />
       <excludePattern pattern="*.class" />
