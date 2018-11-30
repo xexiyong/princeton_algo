@@ -5,7 +5,6 @@
  **************************************************************************** */
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class Board {
 
@@ -96,76 +95,65 @@ public class Board {
 
     public Iterable<Board> neighbors() {
         // all neighboring boards
-        Neighbors<Board> b = new Neighbors<Board>();
-        return b;
+        ArrayList<Board> neighbors = new ArrayList<Board>();
+
+        int empty = emptyPos();
+        int i = empty / size;
+        int j = empty - i * size;
+
+        if (i != 0) {
+            int[][] left = getCopy();
+            left[i - 1][j] = left[i][j];
+            left[i][j] = 0;
+            Board b = new Board(left);
+            neighbors.add(b);
+        }
+        // bottom
+        if (i != size - 1) {
+            int[][] bottom = getCopy();
+            bottom[i + 1][j] = bottom[i][j];
+            bottom[i][j] = 0;
+            Board b = new Board(bottom);
+            neighbors.add(b);
+        }
+        // left
+        if (j != 0) {
+            int[][] left = getCopy();
+            left[i][j - 1] = left[i][j];
+            left[i][j] = 0;
+            Board b = new Board(left);
+            neighbors.add(b);
+        }
+        // right
+        if (j != size - 1) {
+            int[][] left = getCopy();
+            left[i][j + 1] = left[i][j];
+            left[i][j] = 0;
+            Board b = new Board(left);
+            neighbors.add(b);
+        }
+
+        return neighbors;
     }
 
-    public class Neighbors<Board> implements Iterable<Board> {
-        private ArrayList<Board> mList = new ArrayList<Board>();
-
-        public Neighbors(Class<Board> clz) {
-            int empty = emptyPos();
-            int i = empty / size;
-            int j = empty - i * size;
-
-            // top
-            if (i != 0) {
-                int[][] left = getCopy();
-                left[i - 1][j] = left[i][j];
-                left[i][j] = 0;
-                Board b = clz.Board();
-                mList.add(b);
-            }
-            // bottom
-            if (i != size - 1) {
-                int[][] bottom = getCopy();
-                bottom[i + 1][j] = bottom[i][j];
-                bottom[i][j] = 0;
-                Board b = new Board(bottom);
-                mList.add(b);
-            }
-            // left
-            if (j != 0) {
-                int[][] left = getCopy();
-                left[i][j - 1] = left[i][j];
-                left[i][j] = 0;
-                Board b = new Board(left);
-                mList.add(b);
-            }
-            // right
-            if (j != size - 1) {
-                int[][] left = getCopy();
-                left[i][j + 1] = left[i][j];
-                left[i][j] = 0;
-                Board b = new Board(left);
-                mList.add(b);
+    private int emptyPos() {
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                if (mBlocks[i][j] == 0)
+                    return i * size + j;
             }
         }
+        return -1;
+    }
 
-        @Override
-        public Iterator<Board> iterator() {
-            return mList.iterator();
-        }
-
-        public int[][] getCopy() {
-            int[][] cloneBlock = new int[size][size];
-            for (int i = 0; i < size; i++) {
-                for (int j = 0; j < size; j++) {
-                    cloneBlock[i][j] = mBlocks[i][j];
-                }
+    private int[][] getCopy() {
+        int[][] cloneBlock = new int[size][size];
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                cloneBlock[i][j] = mBlocks[i][j];
             }
-            return cloneBlock;
         }
-
-        public int emptyPos() {
-            for (int i = 0; i < size; i++) {
-                for (int j = 0; j < size; j++) {
-                    if (mBlocks[i][j] == 0)
-                        return i * size + j;
-                }
-            }
-            return -1;
-        }
+        return cloneBlock;
     }
 
     public String toString() {
